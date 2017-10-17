@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>开始选题</title>
+
+    <include file="public:cssFile"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function setid() {
+            var getid = document.getElementById('titid');
+            var tm = document.getElementsByName('tm');
+            for (var i = 0; i < tm.length; i++) {
+                if (tm[i].checked) {
+                    getid.value = tm[i].value;
+                    break;
+                }
+            }
+        }
+
+        function chksel() {
+            var tm = document.getElementsByName("tm");
+            var seltf = false;
+            for (var i = 0; i < tm.length; i++) {
+                if (tm[i].checked) {
+                    seltf = true;
+                }
+            }
+            if (!seltf) {
+                alert("请选择一个题目，然后再提交！");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function queren() {
+            if (!confirm('只有一次机会，提交后将不能再选题哦？！\n\n确定提交？！'))
+                return false;
+        }
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-10">
+            <form method="post" action="{:U('Manager/selTitleAction')}" onsubmit="return queren()">
+                <table class="table table-hover table-striped table-condensed">
+                    <thead>
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <span class="form-inline">
+                                <button type="button" class="btn btn-danger" disabled>→</button>
+                                <div class="form-group">
+                                    <label class="sr-only" for="stuNum">学号</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon">学号</div>
+                                        <input type="text" class="form-control" id="stuNum" name="stuNum"
+                                               value="{$studata['s_num']}" disabled placeholder="学号">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="stuName">姓名</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon">姓名</div>
+                                        <input type="text" class="form-control" id="stuName"
+                                               value="{$studata['s_name']}" disabled placeholder="姓名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="stuPhone">电话</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon">电话</div>
+                                        <input type="text" class="form-control" id="stuPhone"
+                                               value="{$studata['s_phone']}" disabled placeholder="电话">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="stuEmail">邮箱</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon">邮箱</div>
+                                        <input type="text" class="form-control" id="stuEmail"
+                                               value="{$studata['s_email']}" disabled placeholder="邮箱">
+                                    </div>
+                                </div>
+                            </span>
+                        </td>
+                    </tr>
+                    </thead>
+                    <thead>
+                    <tr>
+                        <th class="text-center">选择</th>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">题号</th>
+                        <th class="text-center">题目</th>
+                        <th class="text-center">导师</th>
+                        <th class="text-center">允许选题人数</th>
+                        <th class="text-center">还可选题人数</th>
+                        <th class="text-center">题目类别</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="titledata" id="vo" empty="$empty">
+                        <tr class="text-center">
+                            <td>
+                                <input type="radio" id="tm{$i}" name="tm" value="{$vo.c_id}" onclick="setid()">
+                            </td>
+                            <td>{$i}</td>
+                            <td>{$vo.c_num}</td>
+                            <td>{$vo.c_title}</td>
+                            <td>*****</td>
+                            <td>{$vo.c_people}</td>
+                            <td>{$vo.c_left}</td>
+                            <td>{$vo.c_class}</td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td class="text-center" colspan="8">
+                            <input type="hidden" id="titid" name="titid">
+                            <button type="submit" onclick="return chksel()" class="btn btn-danger">确定提交选题</button>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

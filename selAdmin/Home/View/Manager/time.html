@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>时间管理页面</title>
+
+    <link rel="stylesheet" type="text/css" href="__ROOT__/DateTimePicker/jquery.datetimepicker.css"/>
+    <!--<script src="__ROOT__/DateTimePicker/jquery.js"></script>-->
+
+    <include file="public:cssFile"/>
+</head>
+<body>
+<include file="public:top" title="选题时间设置"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <div class="jumbotron">
+                <p>
+
+                <form class="form-inline" method="post" action="{:U('timeSave')}" onsubmit="return chkdate()">
+                    <div class="form-group has-success has-feedback">
+                        <label class="control-label" for="startTime">选题时间</label>
+                        <input id="startTime" name="startTime" type="text" class="form-control"
+                               value="{$result[0][t_starttime]}"
+                               aria-describedby="startTimeStatus" readonly>
+                        <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+                        <span id="startTimeStatus" class="sr-only">(startTime)</span>
+                    </div>
+                    <div class="form-group has-success has-feedback">
+                        <label class="control-label" for="endTime">至</label>
+                        <input id="endTime" name="endTime" type="text" class="form-control"
+                               value="{$result[0][t_endtime]}"
+                               aria-describedby="endTimeStatus" readonly>
+                        <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+                        <span id="endTimeStatus" class="sr-only">(endTime)</span>
+                    </div>
+                    <input type="hidden" name="tid" value="{$result[0][t_Id]}">
+                    <button type="submit" class="btn btn-primary">保存设置</button>
+                </form>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+<script src="__ROOT__/DateTimePicker/jquery.datetimepicker.js"></script>
+<script>
+    $('#startTime').datetimepicker({
+        lang: 'ch',           //语言选择中文
+        yearStart: 2015,     //设置最小年份
+        yearEnd: 2050        //设置最大年份
+    });
+    $('#endTime').datetimepicker({
+        lang: 'ch',          //语言选择中文
+        yearStart: 2015,     //设置最小年份
+        yearEnd: 2050        //设置最大年份
+    });
+</script>
+<script>
+    function chkdate() {
+        //得到日期值并转化成日期格式，replace(//-/g, "//")是根据验证表达式把日期转化成长日期格式，这样
+        //再进行判断就好判断了
+        var sDate = new Date(document.getElementById("startTime").value);
+        var eDate = new Date(document.getElementById("endTime").value);
+        if (sDate >= eDate) {
+            alert("【开始日期】不能大于或等于【结束日期】");
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

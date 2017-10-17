@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>电信分院毕业生选题系统后台管理页面</title>
+
+    <include file="public:cssFile"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <include file="public:jsFileAjax"/>
+    <script>
+        function chkmodifyfrm() {
+            var spname = document.getElementById('spname').value;
+            var patrn = /^[\u4e00-\u9fa5]{2,3}(\d{4})[-][\d]{1}$/;
+            if (!patrn.exec(spname)) {
+                alert('专业名称。\n\n格式如：电商2012-1');
+                document.getElementById('spname').focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<include file="public:top" title="修改专业"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <form method="post" action="{:U('Specility/modifyAction')}" onsubmit="return chkmodifyfrm();">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="addModalLabel"><strong>修改专业</strong></h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="spname" class="control-label">专业名称</label>
+                            <input type="text" class="form-control" maxlength="20" name="spname" id="spname"
+                                   placeholder="专业名称，格式如：电商2012-1" value="{$find['sp_name']}">
+                        </div>
+                        <div class="form-group">
+                            <label for="spclass" class="control-label">专业类别</label>
+                            <select class="form-control" name="spclass" id="spclass">
+                                <eq name="find['sp_classes']" value="计算机类">
+                                    <option value="计算机类" selected>计算机类</option>
+                                    <else/>
+                                    <option value="计算机类">计算机类</option>
+                                </eq>
+                                <eq name="find['sp_classes']" value="电子类">
+                                    <option value="电子类" selected>电子类</option>
+                                    <else/>
+                                    <option value="电子类">电子类</option>
+                                </eq>
+                            </select>
+                            <!--<textarea class="form-control" name="spclass" id="spclass"></textarea>-->
+                        </div>
+                    </div>
+                    <div class="modal-footer text-left">
+                        <input type="hidden" value="{$spid}" name="spid">
+                        <button type="submit" class="btn btn-primary">修改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>添加学生信息</title>
+
+    <include file="public:cssFile"/>
+    <script>
+        function chkfrm() {
+            var snum = document.getElementById("InputNum").value;
+            var patrn = /^[0-9]{14}$/;
+            if (!patrn.exec(snum)) {
+                alert('学号14位，由数字组成！');
+                document.getElementById("InputNum").focus();
+                return false;
+            }
+            var sname = document.getElementById("InputName").value;
+            var patrn = /^[\u4e00-\u9fa5]{2,10}$/;
+            if (!patrn.exec(sname)) {
+                alert('姓名只能2-10个汉字组成！');
+                document.getElementById("InputName").focus();
+                return false;
+            }
+            var sspecility = document.getElementById("InputSC").value;
+            if (sspecility == "SpecilityNull") {
+                alert('专业必选！');
+                document.getElementById("InputSC").focus();
+                return false;
+            }
+//            var sclass = document.getElementById("InputClass").value;
+//            if(sclass=="ClassNull"){
+//                alert('专业类别必选');
+//                document.getElementById("InputClass").focus();
+//                return false;
+//            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<include file="public:top" title="添加学生信息"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <form class="form-horizontal" method="post" action="{:U('Stu/insertAction')}" onsubmit="return chkfrm()">
+                <div class="form-group">
+                    <label for="InputNum" class="col-sm-1 control-label">学号</label>
+
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" name="InputNum" maxlength="14"
+                               id="InputNum" placeholder="必填项，学号由14位数字组成">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="InputName" class="col-sm-1 control-label">姓名</label>
+
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" name="InputName" maxlength="10"
+                               id="InputName" placeholder="必填项，姓名只能由2-10汉字组成">
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<label for="InputPwd" class="col-sm-1 control-label">密码</label>-->
+                <!--<div class="col-sm-11">-->
+                <!--<input type="password" class="form-control" name="InputPwd" maxlength="16"-->
+                <!--id="InputPwd" placeholder="设置登陆密码">-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">性别</label>
+
+                    <div class="col-sm-11">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="InputSex" value="男" checked>男&nbsp;&nbsp;&nbsp;
+                            </label>
+                            <label>
+                                <input type="radio" name="InputSex" value="女">女
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="InputPhone" class="col-sm-1 control-label">电话</label>
+
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" maxlength="25" name="InputPhone"
+                               id="InputPhone" placeholder="电话，手机与固话可连写，如：13988888888/0791-88888888">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="InputPhone" class="col-sm-1 control-label">邮箱</label>
+
+                    <div class="col-sm-11">
+                        <input type="email" class="form-control" maxlength="30" name="InputEmail"
+                               id="InputEmail" placeholder="填写常用邮箱">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">专业</label>
+
+                    <div class="col-sm-11">
+                        <select class="form-control" id="InputSC" name="InputSC">
+                            <option value="SpecilityNull">— 请选择 —</option>
+                            <volist name="spname" id="vo">
+                                <option value="{$vo.sp_id}">{$vo.sp_name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-1 control-label">专业类别</label>-->
+                <!--<div class="col-sm-11">-->
+                <!--<select class="form-control" id="InputClass" name="InputClass">-->
+                <!--<option value="ClassNull">— 请选择 —</option>-->
+                <!--<foreach name="spclass" item="vo" key="i">-->
+                <!--<option value="{$i}">{$vo}</option>-->
+                <!--</foreach>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-11">
+                        <button type="submit" class="btn btn-primary">添加</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

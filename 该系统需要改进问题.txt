@@ -1,0 +1,8 @@
+﻿1、学生登记信息时不需要选专业，这样反而会造成专业录错。（万一原稿中专业有误，可以在管理后台去修改，后台要有这个功能）
+2、选题结果导师联系方式没有，需要加上这个内容。
+3、MyISAM模式必须开启PDO
+①找到php.ini文件
+②打开后，搜索 extension=php_pdo.dll 和 extension=php_pdo_mysql.dll ，去掉前面“;”的注释。
+最终这两行配置内容如下：
+extension=php_pdo.dll
+extension=php_pdo_mysql.dll

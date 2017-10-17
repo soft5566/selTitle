@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>查看选题结果</title>
+
+    <include file="public:cssFile"/>
+</head>
+<body>
+<include file="public:top" />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">学号</th>
+                    <th class="text-center">姓名</th>
+                    <th class="text-center">专业</th>
+                    <th class="text-center">联系方式</th>
+                    <th class="text-center">邮箱</th>
+                    <th class="text-center">题号</th>
+                    <th class="text-center">题目</th>
+                    <th class="text-center">导师</th>
+                    <th class="text-center">选题时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="MyResultdata" id="vo">
+                    <tr class="text-center" style="background-color: #E76D83; color: #fff;">
+                        <td>{$i}</td>
+                        <td>{$vo.s_num}</td>
+                        <td>{$vo.s_name}</td>
+                        <td>{$vo.sp_name}</td>
+                        <td>{$vo.s_phone}</td>
+                        <td>{$vo.s_email}</td>
+                        <td>{$vo.c_num}</td>
+                        <td>{$vo.c_title}</td>
+                        <td>*****</td>
+                        <td>{$vo.r_order}</td>
+                    </tr>
+                </volist>
+				<volist name="resultdata" id="vo" empty="$empty">
+                    <tr class="text-center">
+                        <td>{$i+1}</td>
+                        <td>{$vo.s_num}</td>
+                        <td>{$vo.s_name}</td>
+                        <td>{$vo.sp_name}</td>
+                        <td>{$vo.s_phone}</td>
+                        <td>{$vo.s_email}</td>
+                        <td>{$vo.c_num}</td>
+                        <td>{$vo.c_title}</td>
+                        <td>*****</td>
+                        <td>{$vo.r_order}</td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

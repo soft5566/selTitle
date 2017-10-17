@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>电信分院毕业生选题系统后台管理页面</title>
+
+    <include file="public:cssFile"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function chkfrm() {
+            var cfg_numofpage_value = document.getElementById('cfg_numofpage_value').value;
+            var patrn = /^[1-9]\d*$/;
+            if (!patrn.exec(cfg_numofpage_value)) {
+                alert('每页显示记录数，只能为正整数！');
+                document.getElementById('cfg_numofpage_value').focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<include file="public:top" title="系统参数设置"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <div class="jumbotron">
+                <form class="form-horizontal" method="post" action="{:U('Manager/modifyAction')}"
+                      onsubmit="return chkfrm();">
+                    <div class="form-group">
+                        <label class="col-sm-3 text-center">参数名</label>
+                        <label class="col-sm-2 text-center">参数值</label>
+                        <label class="col-sm-7 text-center">参数功能说明</label>
+                    </div>
+                    <volist name="datacfg" id="vo">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <input type="hidden" name="{$vo.con_key}_id" value="{$vo.con_id}">
+                                <input type="text" class="form-control" name="{$vo.con_key}_key"
+                                       maxlength="16" readonly
+                                       id="{$vo.con_key}_key" value="{$vo.con_key}"
+                                       placeholder="参数名，不能为空">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="{$vo.con_key}_value"
+                                       maxlength="16" placeholder="参数值，不能为空" value="{$vo.con_value}">
+                            </div>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" name="{$vo.con_key}_inst" rows="3"
+                                      placeholder="参数说明，不能为空">{$vo.con_inst}</textarea>
+                            </div>
+                        </div>
+                    </volist>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-danger">确定修改配置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

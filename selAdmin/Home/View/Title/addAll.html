@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>添加选题</title>
+
+    <include file="public:cssFile"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function chkfrm() {
+            var titleid = document.getElementById("titleid").value.replace(/\s+/g, "");
+            var ctitle = document.getElementById("ctitle").value.replace(/\s+/g, "");
+            var ctutor = document.getElementById("ctutor").value.replace(/\s+/g, "");
+            var patrn = /^[a-zA-Z0-9_]{5,16}$/;
+            if (titleid == "" && titleid == null) {
+                alert('题目编号不能为空！');
+                return false;
+            }
+            patrn = /^[a-zA-Z0-9_\u4e00-\u9fa5]{6,50}$/;
+            if (!patrn.exec(ctitle)) {
+                alert('选题题目为6-50个字符！');
+                return false;
+            }
+            var patrn = /^[\u4e00-\u9fa5]{2,8}$/;
+            if (!patrn.exec(ctutor)) {
+                alert("导师姓名为2-8个汉字！");
+                return false;
+            }
+            var cclass = document.getElementById("cclass").value;
+            if (cclass == "cclassNull") {
+                alert('专业类别必选！');
+                document.getElementById("cclass").focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<include file="public:top" title="批量添加选题"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <div class="jumbotron">
+                <form class="form-horizontal" method="post" action="{:U('Title/insertAllAction')}"
+                      onsubmit="return chkfrm();">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input class="form-control" name="viewText" disabled
+                                   value="题号		导师姓名		题目名称		允许人数		所剩人数		题目类别(计算机类/电子类)【说明：Excel表数据直接粘贴，不需要任何编辑！】"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <textarea class="form-control" rows="20" name="allTitle"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">批量添加</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

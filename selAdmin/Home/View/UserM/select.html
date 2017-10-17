@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理用户信息</title>
+
+    <include file="public:cssFile"/>
+    <script>
+        function queren() {
+            if (!confirm('删除后无法恢复！\n\n确定要删除？'))
+                return false;
+        }
+    </script>
+</head>
+<body>
+<include file="public:top" title="管理用户信息"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                <tr class="text-right">
+                    <td colspan="4">
+                        <a href="{:U('UserM/add')}" class="btn btn-danger">添加用户</a>
+                    </td>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">用户名</th>
+                    <th class="text-center">权限</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="result" id="vo" empty="$empty">
+                    <tr class="text-center">
+                        <td>{$i}</td>
+                        <td>{$vo.uname}</td>
+                        <td>
+                            <eq name="vo.uright" value="0">管理员
+                                <else/>
+                                权限不明
+                            </eq>
+                        </td>
+                        <td>
+                            <a href="{:U('UserM/modify')}?uid={$vo.uid}" title="修改用户信息">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </a>&nbsp;
+                            <neq name="vo.uname" value="$Think.session.uloginName">
+                                <a href="{:U('UserM/delete')}?uid={$vo.uid}" title="删除用户">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"
+                                          onclick="return queren();"></span>
+                                </a>
+                            </neq>
+
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

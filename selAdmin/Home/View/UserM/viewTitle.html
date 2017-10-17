@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>查看选题结果</title>
+
+    <include file="public:cssFile"/>
+    <script>
+        function chkNull() {
+            var snum = document.getElementById("stunum").value;
+            var sname = document.getElementById("stuname").value;
+            var snum = snum.replace(/\s+/g, "");
+            var sname = sname.replace(/\s+/g, "");
+            if (sname == "" && snum == "") {
+                alert("请输入【学号】 或 【姓名】!\n\n学号、姓名不能为空白字符！");
+                return false;
+            }
+            return true;
+        }
+
+        function checkAll() {
+            var tem = "";
+            var quanxuan = document.getElementById("selAll");
+            var zixiang = document.getElementsByName("selItem");
+            var text = document.getElementById('arrayid');
+
+            for (var i = 0; i < zixiang.length; i++) {
+                tem += zixiang[i].value + ",";
+                zixiang[i].checked = quanxuan.checked;
+            }
+            if (quanxuan.checked)
+                text.value = tem.substr(0, tem.length - 1);
+            else
+                text.value = "";
+            itemClk();
+        }
+
+        function itemClk() {
+            var quanxuan = document.getElementById("selAll");
+            var zixiang = document.getElementsByName("selItem");
+            var text = document.getElementById('arrayid');
+            var flag = false, tag = true;
+            var tem = "";
+            for (var i = 0; i < zixiang.length; i++) {
+                if (zixiang[i].checked) {
+                    flag = true;
+                    tem += zixiang[i].value + ",";
+                }
+                else
+                    tag = false;
+            }
+            text.value = tem.substr(0, tem.length - 1);
+            if (tag)
+                quanxuan.checked = true;
+            else
+                quanxuan.checked = false;
+            if (flag)
+                document.getElementById("submit1").removeAttribute("disabled");
+            else
+                document.getElementById("submit1").setAttribute("disabled", "disabled");
+        }
+
+        function queren() {
+            if (!confirm('删除后无法恢复！\n\n确定要删除？'))
+                return false;
+        }
+    </script>
+</head>
+<body>
+<include file="public:top" title="查看选题结果"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        <label><input type="checkbox" id="selAll" onclick="checkAll()">全选</label>
+                    </th>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">学号</th>
+                    <th class="text-center">姓名</th>
+                    <th class="text-center">专业</th>
+                    <th class="text-center">电话</th>
+                    <th class="text-center">邮箱</th>
+                    <th class="text-center">题号</th>
+                    <th class="text-center">题目</th>
+                    <th class="text-center">导师</th>
+                    <th class="text-center">选题时间</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="result" id="vo" empty="$empty">
+                    <tr class="text-center">
+                        <td><input type="checkbox" id="selItem" name="selItem" value="{$vo.r_id}" onclick="itemClk()">
+                        </td>
+                        <td>{$i}</td>
+                        <td>{$vo.s_num}</td>
+                        <td>{$vo.s_name}</td>
+                        <td>{$vo.sp_name}</td>
+                        <td>{$vo.s_phone}</td>
+                        <td>{$vo.s_email}</td>
+                        <td>{$vo.c_num}</td>
+                        <td>{$vo.c_title}</td>
+                        <td>{$vo.c_tutor}</td>
+                        <td>{$vo.s_datetime}</td>
+                        <td>
+                            <a href="{:U('UserM/deleteTitle')}?rid={$vo.r_id}">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"
+                                      onclick="return queren();"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <form method="post" action="{:U('UserM/deleteAllTitle')}?rid={$vo.r_id}"
+                              onsubmit="return queren();">
+                            <input type="hidden" name="arrayid" id="arrayid"/>
+                            <button id="submit1" class="btn btn-primary" disabled>删除勾选</button>
+                        </form>
+                    </td>
+                    <td colspan="8">
+                        <div class="pagination">
+                            {$page}
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>

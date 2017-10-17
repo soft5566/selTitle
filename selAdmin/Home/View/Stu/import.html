@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>导入学生信息</title>
+
+    <include file="public:cssFile"/>
+    <script>
+        function chkfrm() {
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+<include file="public:top" title="导入学生信息"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <include file="public:leftMenu"/>
+        </div>
+
+        <div class="col-sm-10">
+            <form method="post" action="php文件" enctype="multipart/form-data">
+                <h3>导入Excel表：</h3>
+                <input type="file" name="file_stu"/><input type="submit" value="导入"/>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public:jsFile"/>
+</body>
+</html>
